@@ -38,8 +38,9 @@ git clone https://github.com/shm233/Authentication-Basics
 cd Authentication-Basics
 ```
 
-```
 create virtual environment in cmd(command prompt)
+
+```
 python -m venv env
 .env\Scripts\activate
 cd newproject
