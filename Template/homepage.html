@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diablo | Safiullah Hossain Mollick</title>
+  <link rel="shortcut icon" href="" type="image/x-icon">
+    <style>
+      /* --- RESET & VARIABLES --- */
+      :root {
+        --bg-color: #050000;
+        --fire-core: #fff7e6;
+        --fire-yellow: #ffcc00;
+        --fire-orange: #ff6600;
+        --fire-red: #ff0000;
+        --fire-dark: #5c0000;
+        --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      }
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        background-color: var(--bg-color);
+        color: white;
+        font-family: var(--font-main);
+        overflow: hidden; /* Prevent scrollbars for the splash effect */
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+      
+      /* --- BACKGROUND ATMOSPHERE --- */
+      .atmosphere {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 50% 120%, #5c0000 0%, #2a0000 40%, #050000 70%);
+        z-index: -2;
+        animation: heatPulse 8s ease-in-out infinite alternate;
+      }
+      
+      /* --- EMBERS / PARTICLES CONTAINER --- */
+      #embers-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+      }
+      
+      .ember {
+        position: absolute;
+        bottom: -20px;
+        background: radial-gradient(circle, var(--fire-yellow), var(--fire-red));
+        border-radius: 50%;
+        opacity: 0;
+        filter: blur(1px);
+        animation: rise 4s linear forwards;
+      }
+      
+      /* --- NAVIGATION --- */
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 2rem 4rem;
+        z-index: 10;
+      }
+      
+      .logo {
+        font-weight: 800;
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+        color: white;
+        text-transform: uppercase;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 0.5rem 1rem;
+        backdrop-filter: blur(5px);
+      }
+      
+      .nav-links a {
+        color: rgb(252, 250, 251);
+        text-decoration: none;
+        margin-left: 2rem;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: color 0.3s;
+      }
+      
+      .nav-links a:hover {
+        color: var(--fire-orange);
+        text-shadow: 0 0 10px var(--fire-orange);
+      }
+      
+      /* --- HERO SECTION (SPLASH ART) --- */
+      main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        z-index: 1;
+        padding: 0 1rem;
+      }
+      
+      .hero-content {
+        position: relative;
+      }
+      
+      /* MAIN FIRE TEXT */
+      h1 {
+        /* Responsive font size using clamp */
+        font-size: clamp(4rem, 15vw, 12rem);
+        font-weight: 900;
+        line-height: 0.9;
+        text-transform: uppercase;
+        letter-spacing: -2px;
+        color: var(--fire-core);
+      
+        /* The Fire Effect Logic */
+        text-shadow: 0 0 10px var(--fire-yellow), 0 0 20px var(--fire-orange), 0 0 40px var(--fire-red), 0 0 80px var(--fire-dark), 0 5px 10px rgba(0, 0, 0, 0.5); /* Drop shadow */
+      
+        animation: flicker 0.05s infinite alternate;
+        position: relative;
+        z-index: 2;
+      }
+      
+      /* Slogan */
+      p.subtitle {
+        font-size: clamp(1rem, 2vw, 1.5rem);
+        letter-spacing: 0.5rem;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.8);
+        margin-top: 1rem;
+        margin-bottom: 3rem;
+        text-shadow: 0 0 10px var(--fire-orange);
+        opacity: 0;
+        animation: fadeIn 2s ease-out 0.5s forwards;
+      }
+      
+      /* CTA BUTTON */
+      .cta-btn {
+        position: relative;
+        display: inline-block;
+        padding: 1rem 3rem;
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: white;
+        text-decoration: none;
+        background: transparent;
+        border: 2px solid var(--fire-orange);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0 0 15px rgba(255, 102, 0, 0.3);
+        z-index: 5;
+      }
+      
+      .cta-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 102, 0, 0.8), transparent);
+        transition: left 0.5s ease;
+      }
+      
+      .cta-btn:hover {
+        background: var(--fire-orange);
+        box-shadow: 0 0 30px var(--fire-red), 0 0 60px var(--fire-orange);
+        border-color: var(--fire-yellow);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        transform: scale(1.05);
+      }
+      
+      .cta-btn:hover::before {
+        left: 100%;
+      }
+      
+      /* --- DECORATIVE ELEMENTS --- */
+      .vignette {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.9);
+        pointer-events: none;
+        z-index: 0;
+      }
+      
+      /* --- ANIMATIONS --- */
+      @keyframes heatPulse {
+        0% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        100% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+      }
+      
+      @keyframes flicker {
+        0% {
+          opacity: 1;
+          transform: scale(1);
+          text-shadow: 0 0 10px var(--fire-yellow), 0 0 20px var(--fire-orange), 0 0 40px var(--fire-red);
+        }
+        25% {
+          opacity: 0.95;
+          transform: scale(1.005);
+          text-shadow: 0 0 15px var(--fire-yellow), 0 0 25px var(--fire-orange), 0 0 50px var(--fire-red);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(0.995);
+          text-shadow: 0 0 10px var(--fire-yellow), 0 0 20px var(--fire-orange), 0 0 35px var(--fire-red);
+        }
+        75% {
+          opacity: 0.98;
+          transform: scale(1.002);
+          text-shadow: 0 0 12px var(--fire-yellow), 0 0 22px var(--fire-orange), 0 0 45px var(--fire-red);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+          text-shadow: 0 0 10px var(--fire-yellow), 0 0 20px var(--fire-orange), 0 0 40px var(--fire-red);
+        }
+      }
+      
+      @keyframes rise {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 0;
+        }
+        20% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) scale(0);
+          opacity: 0;
+        }
+      }
+      
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+      
+      /* --- RESPONSIVE --- */
+      @media (max-width: 768px) {
+        nav {
+          padding: 1.5rem;
+        }
+        .nav-links {
+          display: none; 
+        } /* Simplified for mobile */
+        .logo {
+          font-size: 1.2rem;
+        }
+        .cta-btn {
+          padding: 0.8rem 2rem;
+          width: 100%;
+          max-width: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background Heat Effect -->
+    <div class="atmosphere"></div>
+
+    <!-- Container for JS-generated particles -->
+    <div id="embers-container"></div>
+
+    <!-- Dark Vignette Overlay -->
+    <div class="vignette"></div>
+
+    <!-- Navigation -->
+    <header>
+      <nav>
+        <div class="logo">Mollick</div>
+        <div class="nav-links">
+          <a href="#">About</a>
+          <a href="#">Gallery</a>
+          <a href="#">Contact</a>
+          <a href="url">Contact</a>
+          <a href="{% url 'logout_view' %}">Log Out</a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <div class="hero-content">
+        <h1>Ignite<br />The Soul</h1>
+        <p class="subtitle">Feel the burn of the future</p>
+        <a href="#" class="cta-btn">Enter the Flame</a>
+      </div>
+    </main>
+
+    <script>
+      // --- EMBER GENERATOR SCRIPT ---
+      // This script creates random "fire particles" that float up the screen
+      // to enhance the immersive atmosphere without external libraries.
+      
+      document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('embers-container')
+        const emberCount = 40 // Number of particles
+      
+        function createEmber() {
+          const ember = document.createElement('div')
+          ember.classList.add('ember')
+      
+          // Randomize position (horizontal)
+          const startX = Math.random() * 100
+          ember.style.left = `${startX}%`
+      
+          // Randomize size
+          const size = Math.random() * 4 + 2 // 2px to 6px
+          ember.style.width = `${size}px`
+          ember.style.height = `${size}px`
+      
+          // Randomize animation duration and delay
+          const duration = Math.random() * 3 + 2 // 2s to 5s
+          const delay = Math.random() * 2
+          ember.style.animationDuration = `${duration}s`
+          ember.style.animationDelay = `${delay}s`
+      
+          container.appendChild(ember)
+      
+          // Remove ember after animation ends to keep DOM clean
+          setTimeout(() => {
+            ember.remove()
+            createEmber() // Create a new one to maintain cycle
+          }, (duration + delay) * 1000)
+        }
+      
+        // Initialize the embers
+        for (let i = 0; i < emberCount; i++) {
+          // Stagger initial creation slightly
+          setTimeout(createEmber, Math.random() * 2000)
+        }
+      })
+      
+      // --- MOUSE PARALLAX EFFECT ---
+      // Adds a subtle movement to the background based on mouse position
+      document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 20 // -10 to 10
+        const y = (e.clientY / window.innerHeight - 0.5) * 20
+      
+        const atmosphere = document.querySelector('.atmosphere')
+        atmosphere.style.transform = `translate(${x}px, ${y}px) scale(1.1)`
+      })
+    </script>
+  </body>
+</html>
