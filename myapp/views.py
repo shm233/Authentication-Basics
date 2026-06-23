@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib
 from myapp.models import *
 
 # Create your views here.
@@ -30,6 +31,7 @@ def login_view(req):
         pass_word = req.POST.get('password')
         
         user=authenticate(username=user_name, password=pass_word)
+        
         if user:
             login(req,user)
             return redirect('homepage_view')
@@ -40,4 +42,5 @@ def logout_view(req):
     return redirect('login_view')
 
 def homepage_view(req):
+    
     return render(req, 'homepage.html')
